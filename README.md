@@ -1,5 +1,7 @@
 # Vite + Deno + Svelte + TypeScript
 
+<https://deno.com/deploy/docs/vite>
+
 ## Running
 
 You need to have Deno v1.28.0 or later installed to run this repo.
