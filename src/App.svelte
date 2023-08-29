@@ -1,6 +1,12 @@
 <script lang="ts">
     import svelteLogo from "./assets/svelte.svg";
     import Counter from "./lib/Counter.svelte";
+
+    let names = ["Vite", "Svelte", "Deno"];
+
+    let timer = setInterval(() => {
+        names = [...names.slice(1), names.shift()];
+    }, 1000);
 </script>
 
 <main>
@@ -13,8 +19,16 @@
             <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
         </a>
     </div>
-    <h1>Vite + Svelte + Deno</h1>
+    <h1>{names.join(" + ")}</h1>
 
+    <button
+        on:click={() => {
+            names.sort(() => Math.random() - 0.5);
+            names = [...names];
+        }}
+    >
+        shuffle
+    </button>
     <div class="card">
         <Counter />
     </div>
