@@ -3,7 +3,7 @@ all: build
 build:
 	deno task build
 
-deploy:
+deploy: build
 	(set -a && source .env && \
 	cd dist && \
 	deployctl deploy\
