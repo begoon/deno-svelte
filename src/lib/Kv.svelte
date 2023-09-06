@@ -1,5 +1,6 @@
 <script lang="ts">
     import KvView from "./ui/KvView.svelte";
+    import { formatJSON } from "./ui/format";
 
     interface ImportMetaEnv {
         readonly DEV: boolean;
@@ -47,7 +48,7 @@
         data = [
             ...(await list(prefix)).map((v) => ({
                 ...v,
-                content: JSON.stringify(v.value),
+                content: formatJSON(v.value),
             })),
         ];
     };

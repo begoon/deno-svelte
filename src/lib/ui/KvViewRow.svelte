@@ -19,6 +19,8 @@
     };
 
     const anchor = (row: Value) => row.key.join("@");
+
+    import { formatJSON } from "./format";
 </script>
 
 <tr class:highlighted={row.highlighted}>
@@ -45,7 +47,7 @@
         {/each}
     </td>
     <td>
-        {#if JSON.stringify(row.value) !== row.content}
+        {#if formatJSON(row.value) !== row.content}
             <button
                 on:click={async () => {
                     try {
@@ -64,7 +66,7 @@
             >
             <button
                 on:click={() => {
-                    row.content = JSON.stringify(row.value);
+                    row.content = formatJSON(row.value);
                     row.error = "";
                 }}
                 title="cancel"
@@ -83,7 +85,7 @@
             rows={rows(row.content)}
             bind:value={row.content}
             on:keyup={(e) => {
-                if (e.key === "Escape") row.content = JSON.stringify(row.value);
+                if (e.key === "Escape") row.content = formatJSON(row.value);
                 try {
                     row.type = typeof JSON.parse(row.content);
                     row.error = "";
