@@ -42,8 +42,10 @@
                     class="icon"
                     title="delete {n ? `${n} ` : ''}item{n === 1 ? ' ' : 's'}"
                     on:click={del}
-                    disabled={n < 1}>🪣</button
+                    disabled={n < 1}
                 >
+                    🪣
+                </button>
             {:else}
                 <button
                     class="icon"
