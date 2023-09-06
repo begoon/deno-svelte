@@ -1,9 +1,8 @@
 export type Value = {
     key: string[];
-    type: string;
+    type: "string" | "number" | "boolean" | "object";
     value: unknown;
     content: string;
-    error?: string;
     selected?: boolean;
     highlighted?: boolean;
     added?: boolean;

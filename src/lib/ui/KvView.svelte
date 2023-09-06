@@ -88,8 +88,6 @@
                 </button>
             {:else}key{/if}
         </th>
-        <th>≠</th>
-        <th />
         <th>type</th>
         <th>value</th>
     </tr>
