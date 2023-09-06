@@ -20,19 +20,19 @@ type Item = {
     value: unknown;
 };
 
-await kv.set(["", "a-boolean"], true);
-await kv.set(["", "a-number"], 123);
-await kv.set(["", "a-string"], "123");
-await kv.set(["", "a-object"], { a: 1, b: 2, c: 3 });
-await kv.set(["", "a-array"], [1, 2, 3]);
-
-await kv.set(["root"], "some random shite");
-await kv.set(["root", "a"], "more random shite");
-await kv.set([".", "123"], "123");
-
 for (const [name, value] of Object.entries(Deno.env.toObject())) {
     await kv.set(name.split("_"), value || "");
 }
+
+await kv.set(["1", "DENO", "STARTED_AT"], new Date().toISOString());
+await kv.set(["1", "DENO", "cwd"], Deno.cwd());
+await kv.set(["1", "DENO", "HOME"], Deno.env.get("HOME"));
+await kv.set(["1", "DENO", "ARGS"], Deno.args);
+await kv.set(["1", "DENO", "VERSION"], Deno.version);
+await kv.set(["1", "DENO", "BUILD"], Deno.build);
+await kv.set(["1", "DENO", "PID"], Deno.pid);
+await kv.set(["1", "DENO", "LOADAVG"], Deno.loadavg());
+await kv.set(["1", "DENO", "RESOURCE"], Deno.resources());
 
 const prefix = (url: URL): string[] => {
     return url.searchParams.getAll("prefix");
