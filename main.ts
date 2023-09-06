@@ -26,13 +26,20 @@ for (const [name, value] of Object.entries(Deno.env.toObject())) {
 
 await kv.set(["1", "DENO", "STARTED_AT"], new Date().toISOString());
 await kv.set(["1", "DENO", "cwd"], Deno.cwd());
+await kv.set(["1", "DENO", "execPath"], Deno.execPath());
+await kv.set(["1", "DENO", "hostname"], Deno.hostname());
+await kv.set(["1", "DENO", "env"], Deno.env.toObject());
 await kv.set(["1", "DENO", "HOME"], Deno.env.get("HOME"));
 await kv.set(["1", "DENO", "ARGS"], Deno.args);
 await kv.set(["1", "DENO", "VERSION"], Deno.version);
+await kv.set(["1", "DENO", "CONSOLE_SIZE"], Deno.consoleSize());
 await kv.set(["1", "DENO", "BUILD"], Deno.build);
 await kv.set(["1", "DENO", "PID"], Deno.pid);
 await kv.set(["1", "DENO", "LOADAVG"], Deno.loadavg());
 await kv.set(["1", "DENO", "RESOURCE"], Deno.resources());
+await kv.set(["1", "DENO", "NETWORK"], Deno.networkInterfaces());
+await kv.set(["1", "DENO", "OS_RELEASE"], Deno.osRelease());
+await kv.set(["1", "DENO", "OS_UP_TIME"], Deno.osUptime());
 
 const prefix = (url: URL): string[] => {
     return url.searchParams.getAll("prefix");
