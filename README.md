@@ -23,6 +23,9 @@ cd deno-svelte
 You don't need `node` or `npm` to run the app locally. `deno` will pull all
 the dependencies for you (includeing `vite`, `svelte` etc.)
 
+`main.ts` propagates test data from the environment variables to the KV storage
+to demonstrate the app functionality.
+
 ```sh
 deno task watch:main
 ```
