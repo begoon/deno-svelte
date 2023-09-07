@@ -22,7 +22,10 @@ const DENO_KV_PATH =
         : undefined;
 
 console.log("DENO_KV_DATABASE", DENO_KV_DATABASE || "local");
+
+console.time("opening kv");
 const kv = await Deno.openKv(DENO_KV_PATH);
+console.timeEnd("opening kv");
 
 type Item = {
     key: Deno.KvKey;
@@ -72,9 +75,7 @@ const prefix = (url: URL): string[] => {
 };
 
 router.get("/health", (ctx) => {
-    ctx.response.body = JSON.stringify({
-        database: DENO_KV_DATABASE,
-    });
+    ctx.response.body = JSON.stringify({ database: DENO_KV_DATABASE });
 });
 
 router.get("/kv/:prefix*", async (ctx) => {

@@ -3,7 +3,8 @@
     "dev": "deno run -A --node-modules-dir npm:vite",
     "build": "deno run -A --node-modules-dir npm:vite build",
     "preview": "deno run -A --node-modules-dir npm:vite preview",
-    "serve": "deno run --allow-net --allow-read https://deno.land/std@0.157.0/http/file_server.ts dist/"
+    "watch:build": "deno run -A --watch=src/ --node-modules-dir npm:vite build",
+    "watch:main": "deno run --unstable -A --watch=dist/ main.ts"
   },
   "compilerOptions": {
     "lib": ["deno.ns", "deno.unstable", "dom"]
