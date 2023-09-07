@@ -66,4 +66,8 @@ You need to push your code a github repository. Then you create a new Deno
 Deploy project and connect it to the github repository. You need to set the
 the entry point to `main.ts` from the `main`` branch.
 
+If everything is deployed correctly, you may see something like this:
+
+![image](https://github.com/begoon/deno-svelte/assets/84461/24284359-c1dd-4a17-a996-b27135bb4560)
+
 That's it.
