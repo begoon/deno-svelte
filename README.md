@@ -4,6 +4,9 @@ NOTE: This application requires Deno Deploy 1.36.4 or later.
 
 This is a simple KV editor for Deno Deploy KV storage. It is written in Svelte.
 
+The goal of the project is to demonstrate how to use Deno Deploy KV storage,
+locally and remotely, and how to build Svelte apps with Vite in Deno.
+
 The entry point is `main.ts`. This file runs Deno oak server to serve the API
 on `/kv/...` paths, allowing the Svelte app to access the KV storage, and
 the Svelte app itself.
