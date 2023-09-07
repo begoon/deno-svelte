@@ -57,6 +57,7 @@
     };
 
     const visualise = (key: string[], content: string): string => {
+        if (!content) return "";
         if (key.at(-1).includes("PATH"))
             content = content.replaceAll(":", "\n");
         if (content.split("\n").length < 10) return content;
