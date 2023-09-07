@@ -56,6 +56,13 @@
         return row.type == "string" ? <string>row.value : formatJSON(row.value);
     };
 
+    const visualise = (key: string[], content: string): string => {
+        if (key.at(-1).includes("PATH"))
+            content = content.replaceAll(":", "\n");
+        if (content.split("\n").length < 10) return content;
+        return content.slice(0, 200) + "\n...";
+    };
+
     const escape = document.createElement("textarea");
     function escapeHTML(html: string) {
         escape.textContent = html;
@@ -153,6 +160,9 @@
             />
         {:else}
             {@const content = prepare(row)}
+            {@const visualised = escapeHTML(visualise(row.key, content))
+                .replaceAll(" ", "&nbsp;")
+                .replaceAll("\n", "<br />")}
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div
                 on:click={() => {
@@ -161,24 +171,29 @@
                     editing = true;
                 }}
             >
-                <code
-                    >{@html escapeHTML(content)
-                        .replaceAll(" ", "&nbsp;")
-                        .replaceAll("\n", "<br />")}</code
-                >
+                <code>
+                    {#if visualised}
+                        {@html visualised}
+                    {:else}
+                        <i>click to edit...</i>
+                    {/if}
+                </code>
             </div>
         {/if}
     </td>
 </tr>
 
 <style>
+    i {
+        color: #999;
+    }
     tr.highlighted {
         animation: highlight 3s;
         background-color: #eee;
     }
     @keyframes highlight {
         0% {
-            background: green;
+            background: lightgreen;
         }
         100% {
             background: none;

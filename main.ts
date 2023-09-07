@@ -31,31 +31,48 @@ type Item = {
 };
 
 for (const [name, value] of Object.entries(Deno.env.toObject())) {
-    await kv.set(name.split("_"), value || "");
+    await kv.set(
+        ["env", ...name.split("_").map((v) => (v ? v : "_"))],
+        value || ""
+    );
 }
 
-await kv.set(["1", "DENO", "STARTED_AT"], new Date().toISOString());
-await kv.set(["1", "DENO", "cwd"], Deno.cwd());
-await kv.set(["1", "DENO", "execPath"], Deno.execPath());
-await kv.set(["1", "DENO", "hostname"], Deno.hostname());
-await kv.set(["1", "DENO", "env"], Deno.env.toObject());
-await kv.set(["1", "DENO", "HOME"], Deno.env.get("HOME"));
-await kv.set(["1", "DENO", "ARGS"], Deno.args);
-await kv.set(["1", "DENO", "VERSION"], Deno.version);
-await kv.set(["1", "DENO", "CONSOLE_SIZE"], Deno.consoleSize());
-await kv.set(["1", "DENO", "BUILD"], Deno.build);
-await kv.set(["1", "DENO", "PID"], Deno.pid);
-await kv.set(["1", "DENO", "LOADAVG"], Deno.loadavg());
-await kv.set(["1", "DENO", "RESOURCE"], Deno.resources());
-await kv.set(["1", "DENO", "NETWORK"], Deno.networkInterfaces());
-await kv.set(["1", "DENO", "OS_RELEASE"], Deno.osRelease());
-await kv.set(["1", "DENO", "OS_UP_TIME"], Deno.osUptime());
+await kv.set(["", "DENO", "STARTED_AT"], new Date().toISOString());
+
+const deno = Deno as Record<string, unknown>;
+[
+    "cwd",
+    "execPath",
+    "hostname",
+    "args",
+    "version",
+    "consoleSize",
+    "build",
+    "pid",
+    "loadavg",
+    "resources",
+    "networkInterfaces",
+    "osRelease",
+    "osUptime",
+]
+    .map((v) => [
+        v.toString(),
+        typeof deno[v] === "function"
+            ? (<() => void>deno[v])()
+            : (<{ toObject: () => void }>deno[v]).toObject
+            ? (<{ toObject: () => void }>deno[v]).toObject()
+            : deno[v],
+    ])
+    .forEach(([name, value], _) => {
+        e.log("set", name, typeof value, value);
+        kv.set(["", "DENO", <string>name], value);
+    });
 
 const prefix = (url: URL): string[] => {
     return url.searchParams.getAll("prefix");
 };
 
-router.get("/kv/info", (ctx) => {
+router.get("/health", (ctx) => {
     ctx.response.body = JSON.stringify({
         database: DENO_KV_DATABASE,
     });

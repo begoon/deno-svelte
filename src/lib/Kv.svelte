@@ -20,7 +20,7 @@
     };
 
     const info = async () => {
-        return (await (await fetch(API("kv/info"))).json()) as {
+        return (await (await fetch(API("health"))).json()) as {
             database: string;
         };
     };
@@ -81,5 +81,7 @@
         right: 0;
         font-size: 10px;
         font-family: monospace;
+        z-index: 100;
+        background-color: lightblue;
     }
 </style>

@@ -35,65 +35,71 @@
 </script>
 
 <table>
-    <tr>
-        <th>
-            {#if n > 0}
-                <button
-                    class="icon"
-                    title="delete {n ? `${n} ` : ''}item{n === 1 ? ' ' : 's'}"
-                    on:click={del}
-                    disabled={n < 1}
-                >
-                    🪣
-                </button>
-            {:else}
-                <button
-                    class="icon"
-                    title="delete {n ? `${n} ` : ''}item{n === 1 ? ' ' : 's'}"
-                    on:click={async () => {
-                        const data = prompt(
-                            "input the key to add\n" +
-                                "(either a string with " +
-                                "spaces as separators or a JSON array)"
-                        ).trim();
-                        if (data.length === 0) return;
-                        let key = data.split(/\s+/);
-                        if (data[0] === "[") {
-                            try {
-                                key = JSON.parse(data);
-                            } catch (e) {
-                                alert(e.message);
-                                return;
+    <thead>
+        <tr>
+            <th>
+                {#if n > 0}
+                    <button
+                        class="icon"
+                        title="delete {n ? `${n} ` : ''}item{n === 1
+                            ? ' '
+                            : 's'}"
+                        on:click={del}
+                        disabled={n < 1}
+                    >
+                        🪣
+                    </button>
+                {:else}
+                    <button
+                        class="icon"
+                        title="delete {n ? `${n} ` : ''}item{n === 1
+                            ? ' '
+                            : 's'}"
+                        on:click={async () => {
+                            const data = prompt(
+                                "input the key to add\n" +
+                                    "(either a string with " +
+                                    "spaces as separators or a JSON array)"
+                            ).trim();
+                            if (data.length === 0) return;
+                            let key = data.split(/\s+/);
+                            if (data[0] === "[") {
+                                try {
+                                    key = JSON.parse(data);
+                                } catch (e) {
+                                    alert(e.message);
+                                    return;
+                                }
                             }
-                        }
-                        await put(key, "");
-                        window.location.href = "#" + key.join("@");
-                        highlighted(key);
-                        added(key);
-                    }}
-                >
-                    ➕
-                </button>
-            {/if}
-        </th>
-        <th
-            ><input
-                type="checkbox"
-                bind:checked={selected}
-                on:change={select}
-            /></th
-        >
-        <th>
-            {#if prefix.length}
-                {prefix.join(" / ")}
-                <button title="clear filter" on:click={() => refresh([])}>
-                    ❌
-                </button>
-            {:else}key{/if}
-        </th>
-        <th>type</th>
-        <th>value</th>
-    </tr>
+                            await put(key, "");
+                            window.location.href = "#" + key.join("@");
+                            highlighted(key);
+                            added(key);
+                        }}
+                    >
+                        ➕
+                    </button>
+                {/if}
+            </th>
+            <th
+                ><input
+                    type="checkbox"
+                    bind:checked={selected}
+                    on:change={select}
+                /></th
+            >
+            <th>
+                {#if prefix.length}
+                    {prefix.join(" / ")}
+                    <button title="clear filter" on:click={() => refresh([])}>
+                        ❌
+                    </button>
+                {:else}key{/if}
+            </th>
+            <th>type</th>
+            <th>value</th>
+        </tr>
+    </thead>
     {#each data as row}
         <KvViewRow bind:row {remove} {put} {refresh} />
     {/each}
@@ -104,6 +110,12 @@
         border-collapse: collapse;
         font-size: 10px;
         width: 100%;
+    }
+    thead th {
+        font-weight: bold;
+        position: sticky;
+        top: 0;
+        background: white;
     }
     th {
         text-align: left;
