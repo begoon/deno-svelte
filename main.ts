@@ -64,7 +64,6 @@ const deno = Deno as Record<string, unknown>;
             : deno[v],
     ])
     .forEach(([name, value], _) => {
-        e.log("set", name, typeof value, value);
         kv.set(["", "DENO", <string>name], value);
     });
 
