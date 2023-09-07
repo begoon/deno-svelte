@@ -2,6 +2,7 @@
 /// <reference lib="deno.unstable" />
 
 import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
+import * as dotenv from "https://deno.land/x/dotenv@v3.2.2/mod.ts";
 import {
     Application,
     Router,
@@ -12,7 +13,16 @@ import {
 const app = new Application();
 const router = new Router();
 
-const kv = await Deno.openKv();
+dotenv.config({ path: ".env", export: true });
+
+const DENO_KV_DATABASE = Deno.env.get("DENO_KV_DATABASE") || "local";
+const DENO_KV_PATH =
+    DENO_KV_DATABASE !== "local"
+        ? `https://api.deno.com/databases/${DENO_KV_DATABASE}/connect`
+        : undefined;
+
+console.log("DENO_KV_DATABASE", DENO_KV_DATABASE || "local");
+const kv = await Deno.openKv(DENO_KV_PATH);
 
 type Item = {
     key: Deno.KvKey;
@@ -44,6 +54,12 @@ await kv.set(["1", "DENO", "OS_UP_TIME"], Deno.osUptime());
 const prefix = (url: URL): string[] => {
     return url.searchParams.getAll("prefix");
 };
+
+router.get("/kv/info", (ctx) => {
+    ctx.response.body = JSON.stringify({
+        database: DENO_KV_DATABASE,
+    });
+});
 
 router.get("/kv/:prefix*", async (ctx) => {
     const prefix_ = prefix(ctx.request.url);

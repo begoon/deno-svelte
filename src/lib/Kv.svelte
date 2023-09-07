@@ -19,6 +19,12 @@
         return url.toString();
     };
 
+    const info = async () => {
+        return (await (await fetch(API("kv/info"))).json()) as {
+            database: string;
+        };
+    };
+
     const query = (cmd: string, prefix: string[]): string => {
         return API(cmd) + "?" + prefix.map((v) => "prefix=" + v).join("&");
     };
@@ -56,6 +62,11 @@
     refresh(prefix);
 </script>
 
+<header>
+    {#await info() then { database }}
+        {database}
+    {/await}
+</header>
 <main>
     <KvView {data} {prefix} {remove} {put} {refresh} />
 </main>
@@ -63,5 +74,12 @@
 <style>
     main {
         margin-top: 1.2em;
+    }
+    header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        font-size: 10px;
+        font-family: monospace;
     }
 </style>
