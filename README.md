@@ -1,6 +1,6 @@
 # Deno Deploy KV editor in Svelte
 
-NOTE: This application requires Deno Deploy 1.36.4 or later.
+NOTE: This application requires Deno 1.36.4 or later.
 
 This is a simple KV editor for Deno Deploy KV storage. It is written in Svelte.
 
@@ -24,7 +24,7 @@ cd deno-svelte
 ### Run locally
 
 You don't need `node` or `npm` to run the app locally. `deno` will pull all
-the dependencies for you (includeing `vite`, `svelte` etc.)
+the dependencies for you (including `vite`, `svelte` etc.)
 
 `main.ts` propagates test data from the environment variables to the KV storage
 to demonstrate the app functionality.
